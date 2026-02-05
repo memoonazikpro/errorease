@@ -1,5 +1,4 @@
 
-
 # 🚀 Errorease
 
 **Errorease** is a custom AI **Frappe app** designed to simplify error handling by providing clear explanations and actionable insights for errors encountered within Frappe/ERPNext applications.
@@ -51,4 +50,5 @@ bench restart
 
 * Built using the **Frappe Framework**
 * Inspired by everyday debugging challenges in ERPNext projects
+
 
