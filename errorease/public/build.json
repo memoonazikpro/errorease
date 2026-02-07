@@ -1,0 +1,8 @@
+{
+    "js/errorease.min.js": [
+        "public/js/errorease.js"
+    ],
+    "css/errorease.min.css": [
+        "public/css/errorease.css"
+    ]
+}

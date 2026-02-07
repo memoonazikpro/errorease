@@ -1,9 +1,43 @@
+# apps/errorease/errorease/hooks.py
+
+import frappe
+
 app_name = "errorease"
 app_title = "ErrorEase"
 app_publisher = "memoona"
 app_description = "AI-powered error explanation module"
 app_email = "memoonaiqbal3710@gmail.com"
 app_license = "mit"
+
+# Include JS and CSS files
+app_include_js = [
+    "/assets/errorease/js/errorease.js" 
+]
+
+app_include_css = [
+    "/assets/errorease/css/errorease.css"
+]
+
+# Initialize error interceptor on app startup
+def after_migrate():
+    """Initialize ErrorEase after migration"""
+    try:
+        # Import and initialize the error interceptor
+        from .error_interceptor import intercept_all_errors
+        intercept_all_errors()
+        frappe.log_error("ErrorEase", "Error interceptor initialized successfully")
+        print("ErrorEase: After migrate hook executed successfully")
+    except Exception as e:
+        frappe.log_error("ErrorEase initialization failed", str(e))
+        print(f"ErrorEase: After migrate hook failed: {str(e)}")
+
+# Add route for error overlay
+website_route_rules = [
+    {"from_route": "/errorease/overlay", "to_route": "errorease/www/error_overlay"}
+]
+
+# Set the after_migrate hook - FIXED: Use function reference, not string
+after_migrate = after_migrate
 
 # Apps
 # ------------------
@@ -23,10 +57,6 @@ app_license = "mit"
 
 # Includes in <head>
 # ------------------
-
-# include js, css files in header of desk.html
-# app_include_css = "/assets/errorease/css/errorease.css"
-# app_include_js = "/assets/errorease/js/errorease.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/errorease/css/errorease.css"
@@ -241,4 +271,3 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-

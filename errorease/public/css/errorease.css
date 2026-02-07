@@ -1,0 +1,80 @@
+/* apps/errorease/errorease/public/css/errorease.css */
+
+/* ---------- Inline button in error dialog ---------- */
+.errorease-inline-btn {
+    background: #28a745 !important;        /* ERPNext success green */
+    border: 1px solid #1e7e34 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+    line-height: 18px !important;
+    min-height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    box-shadow: 0 1px 2px rgba(2,6,23,0.06) !important;
+    cursor: pointer !important;
+    vertical-align: middle !important;
+    margin-left: 8px !important;
+}
+
+.errorease-inline-btn:hover {
+    background: #218838 !important;
+    border-color: #1c7430 !important;
+    transform: translateY(-1px);
+}
+
+.errorease-inline-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------- Explanation dialog styles ---------- */
+.errorease-explanation-dialog .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.errorease-explanation-container {
+    padding: 18px;
+    background: #fbfdff;
+    border-radius: 10px;
+    border-left: 5px solid #3b82f6;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-size: 14px;
+    color: #0b1220;
+    line-height: 1.6;
+}
+
+.errorease-problem {
+    background: #fff5f5;
+    border-left: 4px solid #dc3545;
+    padding: 12px 15px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 20px;
+}
+
+.errorease-ol {
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.errorease-ol li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.errorease-dialog-controls {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* Hide any floating buttons (we're not using them anymore) */
+.errorease-global-btn {
+    display: none !important;
+}
