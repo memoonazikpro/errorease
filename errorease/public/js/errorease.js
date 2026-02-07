@@ -1,6 +1,8 @@
 // apps/erpoease/errorease/public/js/errorease.js
 
+// ============================================================
 // ULTIMATE FIX: Intercept ALL Frappe error displays
+// ============================================================
 (function () {
     if (!window.frappe) {
         console.warn("ErrorEase: Frappe not available");
@@ -185,7 +187,9 @@
     console.log("✓ ErrorEase: ULTIMATE initialization complete");
 })();
 
+// ============================================================
 // ULTIMATE Button Injection - WORKS FOR ALL DIALOGS
+// ============================================================
 function ultimateErrorButtonInjection(errorMessage, errorTitle = '', targetDialog = null) {
     console.log("ULTIMATE: Attempting button injection...");
 
@@ -300,7 +304,8 @@ function forceInjectButton(dialog, errorMessage) {
                 // Create a wrapper inside modal-body for our button
                 const buttonWrapper = document.createElement('div');
                 buttonWrapper.className = 'errorease-button-wrapper';
-                buttonWrapper.style.cssText = 'padding: 15px 0; text-align: center; border-top: 1px solid #e5e7eb; margin-top: 15px; display: block !important;';
+                // FIXED: Use flexbox for proper alignment
+                buttonWrapper.style.cssText = 'padding: 15px 0; display: flex !important; justify-content: flex-end !important; align-items: center !important; border-top: 1px solid #e5e7eb; margin-top: 15px;';
                 footer.appendChild(buttonWrapper);
                 footer = buttonWrapper;
             } else {
@@ -309,7 +314,8 @@ function forceInjectButton(dialog, errorMessage) {
                 if (modalContent) {
                     footer = document.createElement('div');
                     footer.className = 'modal-footer errorease-forced-footer';
-                    footer.style.cssText = 'padding: 15px; border-top: 1px solid #e5e7eb; text-align: center; background: #f9fafb; display: block !important;';
+                    // FIXED: Use flexbox for proper alignment
+                    footer.style.cssText = 'padding: 15px; border-top: 1px solid #e5e7eb; display: flex !important; justify-content: flex-end !important; align-items: center !important; background: #f9fafb;';
                     modalContent.appendChild(footer);
                     console.log("ULTIMATE: Created forced footer!");
                 }
@@ -321,7 +327,9 @@ function forceInjectButton(dialog, errorMessage) {
             // Remove 'hide' class if present
             footer.classList.remove('hide');
             // Force display
-            footer.style.display = 'block';
+            footer.style.display = 'flex';
+            footer.style.justifyContent = 'flex-end';
+            footer.style.alignItems = 'center';
             footer.style.visibility = 'visible';
             footer.style.opacity = '1';
         }
@@ -352,9 +360,8 @@ function forceInjectButton(dialog, errorMessage) {
         btn.className = 'btn btn-xs btn-primary errorease-btn';
         btn.innerHTML = '<i class="fa fa-robot" style="margin-right: 5px"></i> Explain Error';
 
-        // FORCE visibility with aggressive styling
+        // FIXED: Proper button styling with correct margins
         btn.style.cssText = `
-            margin: 10px !important;
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
             border: 2px solid #1e7e34 !important;
             color: white !important;
@@ -374,6 +381,10 @@ function forceInjectButton(dialog, errorMessage) {
             visibility: visible !important;
             z-index: 9999 !important;
             position: relative !important;
+            margin-left: 10px !important;
+            margin-right: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         `;
 
         // Hover effects
@@ -480,9 +491,9 @@ function forceInjectButton(dialog, errorMessage) {
     }
 }
 
- 
+// ============================================================
 // ErrorEase Core
- 
+// ============================================================
 window.ErrorEase = {
     showExplanation: function (explanation, cached = false) {
         // Remove unwanted sections
@@ -603,8 +614,9 @@ window.ErrorEase = {
     }
 };
 
- 
-// ULTIMATE CSS - Force button visibility
+// ============================================================
+// ULTIMATE CSS - Fixed Button Alignment
+// ============================================================
 (function () {
     const style = document.createElement('style');
     style.textContent = `
@@ -614,14 +626,23 @@ window.ErrorEase = {
             opacity: 1 !important;
             z-index: 9999 !important;
             position: relative !important;
+            margin-left: 10px !important;
+            margin-right: 0 !important;
         }
         
-        /* FIX: Remove hide class from modal-footer when we add our button */
+        /* FIX: Use flexbox for proper alignment */
         .modal-footer:has(.errorease-btn) {
-            display: block !important;
+            display: flex !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
+        
         .modal-footer.hide:has(.errorease-btn) {
-            display: block !important;
+            display: flex !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
         
         @keyframes errorease-pulse {
@@ -633,36 +654,85 @@ window.ErrorEase = {
         .errorease-forced-footer {
             padding: 15px !important;
             border-top: 1px solid #e5e7eb !important;
-            text-align: center !important;
+            display: flex !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
             background: #f9fafb !important;
-            display: block !important;
+            gap: 8px !important;
         }
         
         .errorease-button-wrapper {
             padding: 15px 0 !important;
-            text-align: center !important;
+            display: flex !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
             border-top: 1px solid #e5e7eb !important;
             margin-top: 15px !important;
-            display: block !important;
+            gap: 8px !important;
+        }
+        
+        /* When button is in a regular button group */
+        .modal-footer .btn-group .errorease-btn {
+            margin-left: 8px !important;
+            order: 2 !important; /* Put our button after other buttons */
+        }
+        
+        /* When there's only our button */
+        .modal-footer:has(.errorease-btn:only-child) {
+            justify-content: center !important;
+        }
+        
+        /* Handle existing Frappe button groups */
+        .modal-footer .btn-group {
+            display: flex !important;
+            gap: 8px !important;
+        }
+        
+        /* Ensure our button aligns with other buttons */
+        .modal-footer .btn-group + .errorease-btn {
+            margin-left: 8px !important;
         }
         
         .errorease-explanation-dialog .modal-body {
             max-height: 70vh;
             overflow-y: auto;
         }
+        
+        /* Make sure the button doesn't wrap awkwardly */
+        @media (max-width: 768px) {
+            .errorease-btn {
+                padding: 6px 12px !important;
+                font-size: 12px !important;
+            }
+            
+            .modal-footer, .errorease-button-wrapper {
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+            }
+        }
     `;
     document.head.appendChild(style);
-    console.log("✓ ErrorEase: ULTIMATE CSS loaded");
+    console.log("✓ ErrorEase: ULTIMATE CSS loaded with fixed alignment");
 })();
 
+// ============================================================
 // Initialize
+// ============================================================
 if (window.frappe && frappe.ready) {
     frappe.ready(() => {
-        console.log("✓ ErrorEase: ULTRA-READY");
+        console.log("✓ ErrorEase: ULTRA-READY with fixed button alignment");
     });
 } else {
     setTimeout(() => {
-        console.log("✓ ErrorEase: ULTRA-LOADED");
+        console.log("✓ ErrorEase: ULTRA-LOADED with fixed button alignment");
     }, 1000);
 }
 
+// ============================================================
+// Auto-test on load (optional, remove in production)
+// ============================================================
+setTimeout(() => {
+    console.log("ErrorEase: Auto-test disabled. Use ErrorEase.test() to test.");
+    // Uncomment to auto-test on page load:
+    // ErrorEase.test();
+}, 3000);
